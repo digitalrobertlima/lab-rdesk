@@ -1,16 +1,30 @@
 import React, { useState } from 'react';
-import { Lock, Mail, Github, Facebook, Chrome, MessageCircle, Smartphone, Fingerprint, ArrowRight } from 'lucide-react';
+import { Lock, Mail, Github, Facebook, Chrome, MessageCircle, Fingerprint, ArrowRight } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
-const SocialButton = ({ icon: Icon, label, color }) => (
-  <button className="flex items-center justify-center gap-2 w-full py-3 px-4 border border-white/5 rounded-xl bg-white/5 hover:bg-white/10 transition-all duration-300 group">
-    <Icon size={20} className={color} />
-    <span className="text-xs font-medium uppercase tracking-tighter text-white/60 group-hover:text-white">{label}</span>
-  </button>
-);
-
 const LoginScreen = () => {
-  const [method, setMethod] = useState('email'); // email, cpf, phone, social
+  const [method, setMethod] = useState('email');
+  const [cpf, setCpf] = useState('');
+  const [phone, setPhone] = useState('');
+
+  // Máscara de CPF (000.000.000-00)
+  const handleCPF = (v) => {
+    v = v.replace(/\D/g, "");
+    if (v.length <= 11) {
+      v = v.replace(/(\d{3})(\d)/, "$1.$2");
+      v = v.replace(/(\d{3})(\d)/, "$1.$2");
+      v = v.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
+    }
+    setCpf(v);
+  };
+
+  // Máscara de WhatsApp ((00) 00000-0000)
+  const handlePhone = (v) => {
+    v = v.replace(/\D/g, "");
+    v = v.replace(/^(\d{2})(\d)/g, "($1) $2");
+    v = v.replace(/(\d{5})(\d)/, "$1-$2");
+    setPhone(v.substring(0, 15));
+  };
 
   const handleSuccess = (e) => {
     e.preventDefault();
@@ -23,71 +37,87 @@ const LoginScreen = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] flex items-center justify-center p-4 font-sans text-white">
-      {/* Background Decorativo - Industrial Luxury */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-[25%] -left-[10%] w-[50%] h-[50%] bg-[#A4855D]/10 blur-[120px] rounded-full" />
-        <div className="absolute -bottom-[25%] -right-[10%] w-[50%] h-[50%] bg-[#A4855D]/5 blur-[120px] rounded-full" />
-      </div>
-
-      <div className="relative w-full max-w-[440px] bg-[#161616]/80 backdrop-blur-2xl border border-white/10 p-8 rounded-[2rem] shadow-2xl">
-        <div className="text-center mb-8">
-          <div className="inline-flex p-3 rounded-2xl bg-gradient-to-br from-[#A4855D] to-[#634e32] mb-4 shadow-lg shadow-[#A4855D]/20">
+    <div className="min-h-screen bg-[#0a0a0a] flex items-center justify-center p-4 md:p-8 font-sans text-white transition-all duration-500">
+      <div className="relative w-full max-w-[400px] bg-[#161616]/90 backdrop-blur-3xl border border-white/5 p-6 md:p-10 rounded-[2.5rem] shadow-2xl transition-all duration-500 ease-in-out">
+        
+        {/* Header - Industrial Luxury */}
+        <div className="text-center mb-10">
+          <div className="inline-flex p-4 rounded-2xl bg-gradient-to-br from-[#A4855D] to-[#634e32] mb-5 shadow-lg shadow-[#A4855D]/10">
             <Fingerprint size={32} className="text-black" />
           </div>
-          <h2 className="text-2xl font-bold tracking-tight uppercase">M.E.S.A. Access</h2>
-          <p className="text-white/40 text-xs mt-1 uppercase tracking-widest">Selecione seu método de entrada</p>
+          <h2 className="text-2xl font-black tracking-tighter uppercase italic">M.E.S.A. Lab</h2>
+          <p className="text-white/30 text-[9px] mt-1 uppercase tracking-[0.4em]">Sistêmica Autônoma</p>
         </div>
 
-        {/* Seletores de Método */}
-        <div className="flex gap-2 mb-8 p-1 bg-black/40 rounded-xl border border-white/5">
-          <button onClick={() => setMethod('email')} className={`flex-1 py-2 text-[10px] uppercase font-bold rounded-lg transition-all ${method === 'email' ? 'bg-[#A4855D] text-black' : 'text-white/40'}`}>E-mail</button>
-          <button onClick={() => setMethod('cpf')} className={`flex-1 py-2 text-[10px] uppercase font-bold rounded-lg transition-all ${method === 'cpf' ? 'bg-[#A4855D] text-black' : 'text-white/40'}`}>CPF</button>
-          <button onClick={() => setMethod('phone')} className={`flex-1 py-2 text-[10px] uppercase font-bold rounded-lg transition-all ${method === 'phone' ? 'bg-[#A4855D] text-black' : 'text-white/40'}`}>WhatsApp</button>
+        {/* Sliding Selector (Barra menos agressiva) */}
+        <div className="relative flex p-1.5 bg-black/40 rounded-2xl border border-white/5 mb-8 overflow-hidden">
+          <div 
+            className="absolute top-1.5 bottom-1.5 transition-all duration-300 ease-out bg-[#A4855D] rounded-xl shadow-lg"
+            style={{ 
+              width: 'calc(33.33% - 4px)', 
+              left: method === 'email' ? '6px' : method === 'cpf' ? '33.33%' : 'calc(66.66% - 4px)' 
+            }}
+          />
+          <button onClick={() => setMethod('email')} className={`relative z-10 flex-1 py-2 text-[10px] font-black uppercase transition-colors duration-300 ${method === 'email' ? 'text-black' : 'text-white/30'}`}>E-mail</button>
+          <button onClick={() => setMethod('cpf')} className={`relative z-10 flex-1 py-2 text-[10px] font-black uppercase transition-colors duration-300 ${method === 'cpf' ? 'text-black' : 'text-white/30'}`}>CPF</button>
+          <button onClick={() => setMethod('phone')} className={`relative z-10 flex-1 py-2 text-[10px] font-black uppercase transition-colors duration-300 ${method === 'phone' ? 'text-black' : 'text-white/30'}`}>Whats</button>
         </div>
 
-        <form onSubmit={handleSuccess} className="space-y-4">
-          {method === 'email' && (
-            <div className="space-y-4 animate-in fade-in slide-in-from-bottom-2 duration-500">
-              <input type="email" placeholder="ENDEREÇO DE E-MAIL" className="w-full bg-black/50 border border-white/10 rounded-xl px-5 py-4 text-sm focus:border-[#A4855D]/50 outline-none transition-all placeholder:text-white/20" />
-              <input type="password" placeholder="SENHA" className="w-full bg-black/50 border border-white/10 rounded-xl px-5 py-4 text-sm focus:border-[#A4855D]/50 outline-none transition-all placeholder:text-white/20" />
-            </div>
-          )}
+        <form onSubmit={handleSuccess} className="space-y-5 transition-all duration-500">
+          <div className="min-h-[120px] flex flex-col justify-center gap-4">
+            {method === 'email' && (
+              <div className="animate-in fade-in slide-in-from-right-4 duration-300 space-y-3">
+                <input type="email" placeholder="E-MAIL" className="w-full bg-black/60 border border-white/5 rounded-xl px-5 py-4 text-xs font-bold focus:border-[#A4855D]/40 outline-none transition-all placeholder:text-white/10 uppercase tracking-widest" />
+                <input type="password" placeholder="SENHA" className="w-full bg-black/60 border border-white/5 rounded-xl px-5 py-4 text-xs font-bold focus:border-[#A4855D]/40 outline-none transition-all placeholder:text-white/10 uppercase tracking-widest" />
+              </div>
+            )}
 
-          {method === 'cpf' && (
-            <div className="animate-in fade-in slide-in-from-bottom-2 duration-500">
-              <input type="text" placeholder="000.000.000-00" className="w-full bg-black/50 border border-white/10 rounded-xl px-5 py-4 text-sm focus:border-[#A4855D]/50 outline-none transition-all placeholder:text-white/20" />
-            </div>
-          )}
+            {method === 'cpf' && (
+              <div className="animate-in fade-in slide-in-from-right-4 duration-300">
+                <input 
+                  type="text" 
+                  value={cpf}
+                  onChange={(e) => handleCPF(e.target.value)}
+                  placeholder="000.000.000-00" 
+                  className="w-full bg-black/60 border border-white/5 rounded-xl px-5 py-5 text-lg font-mono text-center focus:border-[#A4855D]/40 outline-none transition-all placeholder:text-white/10 tracking-widest" 
+                />
+              </div>
+            )}
 
-          {method === 'phone' && (
-            <div className="animate-in fade-in slide-in-from-bottom-2 duration-500">
-              <input type="tel" placeholder="(00) 90000-0000" className="w-full bg-black/50 border border-white/10 rounded-xl px-5 py-4 text-sm focus:border-[#A4855D]/50 outline-none transition-all placeholder:text-white/20" />
-              <p className="text-[10px] text-white/30 mt-2 text-center">Enviaremos um código via SMS ou WhatsApp</p>
-            </div>
-          )}
+            {method === 'phone' && (
+              <div className="animate-in fade-in slide-in-from-right-4 duration-300">
+                <input 
+                  type="tel" 
+                  value={phone}
+                  onChange={(e) => handlePhone(e.target.value)}
+                  placeholder="(00) 00000-0000" 
+                  className="w-full bg-black/60 border border-white/5 rounded-xl px-5 py-5 text-lg font-mono text-center focus:border-[#A4855D]/40 outline-none transition-all placeholder:text-white/10 tracking-widest" 
+                />
+              </div>
+            )}
+          </div>
 
-          <button className="w-full bg-[#A4855D] hover:bg-[#c4a47a] text-black font-black py-4 rounded-xl transition-all flex items-center justify-center gap-2 group uppercase text-xs tracking-widest shadow-xl shadow-[#A4855D]/10">
-            Continuar <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+          <button className="w-full bg-[#A4855D] hover:bg-[#c4a47a] text-black font-black py-4 rounded-2xl transition-all flex items-center justify-center gap-3 group uppercase text-xs tracking-[0.2em] shadow-xl shadow-[#A4855D]/5 active:scale-95">
+            Acessar <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
           </button>
         </form>
 
-        <div className="relative my-8 text-center">
-          <span className="absolute inset-x-0 top-1/2 h-px bg-white/5"></span>
-          <span className="relative bg-[#161616] px-4 text-[10px] text-white/20 uppercase tracking-widest font-bold">Ou acesse com</span>
+        <div className="relative my-10 text-center">
+          <span className="absolute inset-x-0 top-1/2 h-[1px] bg-white/5"></span>
+          <span className="relative bg-[#161616] px-4 text-[9px] text-white/20 uppercase tracking-[0.3em] font-bold italic">Lab Connect</span>
         </div>
 
-        {/* Grid de Redes Sociais */}
+        {/* Redes Sociais com Hover Fluido */}
         <div className="grid grid-cols-2 gap-3">
-          <SocialButton icon={Chrome} label="Google" color="text-red-500" />
-          <SocialButton icon={Github} label="GitHub" color="text-white" />
-          <SocialButton icon={MessageCircle} label="WhatsApp" color="text-green-500" />
-          <SocialButton icon={Facebook} label="Facebook" color="text-blue-500" />
+          <button className="flex items-center justify-center gap-2 py-3 rounded-xl border border-white/5 bg-white/5 hover:bg-white/10 transition-all group">
+            <Chrome size={16} className="text-white/40 group-hover:text-red-500" />
+            <span className="text-[10px] font-bold text-white/40 group-hover:text-white uppercase tracking-tighter">Google</span>
+          </button>
+          <button className="flex items-center justify-center gap-2 py-3 rounded-xl border border-white/5 bg-white/5 hover:bg-white/10 transition-all group">
+            <Github size={16} className="text-white/40 group-hover:text-white" />
+            <span className="text-[10px] font-bold text-white/40 group-hover:text-white uppercase tracking-tighter">Github</span>
+          </button>
         </div>
-
-        <p className="mt-8 text-center text-[10px] text-white/20 uppercase tracking-widest">
-          Problemas com acesso? <a href="#" className="text-[#A4855D] hover:underline">Suporte R-Desk</a>
-        </p>
       </div>
     </div>
   );

@@ -18,21 +18,21 @@ function App() {
 
   return (
     <div className="relative min-h-screen bg-[#0a0a0a]">
-      {/* Menu do Laboratório - Estilo Minimalista */}
-      <div className="fixed top-6 left-1/2 -translate-x-1/2 z-50 flex gap-4 p-1 bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl">
-        <button 
-          onClick={() => setView('login')}
-          className={`px-6 py-2 text-[10px] font-black uppercase tracking-[0.2em] rounded-xl transition-all ${view === 'login' ? 'bg-[#A4855D] text-black shadow-lg' : 'text-white/40 hover:text-white'}`}
-        >
-          Auth Lab
-        </button>
-        <button 
-          onClick={() => setView('pix')}
-          className={`px-6 py-2 text-[10px] font-black uppercase tracking-[0.2em] rounded-xl transition-all ${view === 'pix' ? 'bg-[#A4855D] text-black shadow-lg' : 'text-white/40 hover:text-white'}`}
-        >
-          Pix Lab
-        </button>
-      </div>
+      {/* Menu do Laboratório - Agora no Rodapé para não obstruir o topo */}
+<div className="fixed bottom-10 left-1/2 -translate-x-1/2 z-50 flex gap-4 p-1.5 bg-white/5 backdrop-blur-2xl border border-white/10 rounded-2xl shadow-2xl">
+  <button 
+    onClick={() => setView('login')}
+    className={`px-6 py-2 text-[10px] font-black uppercase tracking-[0.2em] rounded-xl transition-all ${view === 'login' ? 'bg-[#A4855D] text-black' : 'text-white/40 hover:text-white'}`}
+  >
+    Auth Lab
+  </button>
+  <button 
+    onClick={() => setView('pix')}
+    className={`px-6 py-2 text-[10px] font-black uppercase tracking-[0.2em] rounded-xl transition-all ${view === 'pix' ? 'bg-[#A4855D] text-black' : 'text-white/40 hover:text-white'}`}
+  >
+    Pix Lab
+  </button>
+</div>
 
       {/* Renderização das Peças */}
       <div className="animate-in fade-in duration-700">

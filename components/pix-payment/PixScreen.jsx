@@ -58,28 +58,28 @@ const PixScreen = ({ value = 0, onPaymentComplete }) => {
             </button>
           </div>
         ) : (
-          <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
-            
-            <div className="bg-white p-4 rounded-3xl mx-auto w-fit shadow-inner">
-              <QRCodeSVG value="{`pix-payload-mock-${pixValue}`}" size="{200}"/>
+          <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
+            {/* QR Code com tamanho controlado e borda elegante */}
+            <div className="bg-white p-4 rounded-3xl mx-auto w-64 h-64 flex items-center justify-center shadow-inner">
+              <QRCodeSVG value={`pix-payload-${pixValue}`} size={200} />
             </div>
 
-            <div className="flex flex-col gap-3">
+            <div className="grid grid-cols-1 gap-3">
               <button 
                 onClick={handleCopy}
                 className="flex items-center justify-center gap-3 w-full bg-black/50 border border-white/5 py-4 rounded-2xl hover:bg-white/5 transition-all group"
               >
-                {copied ? <Check size="{18}" className="text-green-500"/> : <Copy size="{18}" className="text-white/40 group-hover:text-white"/>}
-                <span className="text-[10px] font-bold uppercase tracking-widest">
-                  {copied ? "Copiado!" : "Copiar Código Pix"}
+                {copied ? <Check size={16} className="text-green-500" /> : <Copy size={16} className="text-white/40" />}
+                <span className="text-[10px] font-bold uppercase tracking-widest text-white/60">
+                  {copied ? "Copiado!" : "Copiar Código"}
                 </span>
               </button>
 
               <button 
                 onClick={simulatePayment}
-                className="w-full bg-[#A4855D] text-black font-black py-4 rounded-2xl uppercase text-[10px] tracking-[0.2em] shadow-lg shadow-[#A4855D]/10 flex items-center justify-center gap-2"
+                className="w-full bg-[#A4855D] text-black font-black py-4 rounded-2xl uppercase text-[10px] tracking-[0.2em] shadow-lg flex items-center justify-center gap-2"
               >
-                Simular Pagamento <Sparkles size="{14}"/>
+                Confirmar Pagamento <Sparkles size={14} />
               </button>
             </div>
           </div>
