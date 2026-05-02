@@ -1,0 +1,12 @@
+services:
+  login-service:
+    build:
+      context: ./components/auth-screen
+    container_name: auth_lab
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./components/auth-screen:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development

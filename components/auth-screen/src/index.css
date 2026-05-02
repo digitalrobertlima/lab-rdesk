@@ -1,0 +1,21 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-organic-gradient min-h-screen flex items-center justify-center;
+  }
+}
+
+/* Efeito de Vidro Fumê (Smoked Glass) */
+.glass-panel {
+  @apply bg-industrial-glass backdrop-blur-md border border-white/10 shadow-2xl;
+  border-radius: 1.5rem;
+}
+
+/* Input com pegada industrial */
+.input-field {
+  @apply bg-black/20 border border-white/5 rounded-lg px-4 py-3 outline-none 
+         focus:border-industrial-accent/50 transition-all duration-300;
+}
