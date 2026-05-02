@@ -1,5 +1,17 @@
 # 🏺 R-Desk Component Lab
 
+![alt text](image.png)
+
+![alt text](image-1.png)
+
+![alt text](image-2.png)
+
+![alt text](image-3.png)
+
+![alt text](image-4.png)
+
+![alt text](image-5.png)
+
 **Biblioteca de Componentes White-label com Estética Industrial Organic Luxury**
 
 Uma coleção de componentes React modernos e elegantes para autenticação e pagamentos, desenvolvida com foco em design premium e experiência do usuário excepcional.
@@ -326,11 +338,3 @@ Este projeto está sob licença MIT. Veja o arquivo `LICENSE` para detalhes.
 **Desenvolvido com ❤️ usando React, TailwindCSS e Vite**
 
 🎉 **Pronto para produção e escalabilidade enterprise!**
-
-imagens:
-
-![alt text](image.png)
-
-![alt text](image-1.png)
-
-![alt text](image-2.png)
